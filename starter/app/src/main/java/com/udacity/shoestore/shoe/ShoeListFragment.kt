@@ -1,9 +1,8 @@
 package com.udacity.shoestore.shoe
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -40,6 +39,14 @@ class ShoeListFragment: Fragment() {
         binding.addShoeButton.setOnClickListener { v: View ->
             Navigation.findNavController(v).navigate(R.id.action_shoeListFragment_to_shoeDetailFragment)
         }
+        requireActivity().appBarLayout.toolbar.inflateMenu(R.menu.menu)
+        requireActivity().appBarLayout.toolbar.setOnMenuItemClickListener (object : android.widget.Toolbar.OnMenuItemClickListener,
+                Toolbar.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                Navigation.findNavController(view!!).navigate(R.id.action_shoeListFragment_to_loginFragment)
+                return true
+            }
+        })
         return binding.root
     }
 
