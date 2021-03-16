@@ -16,10 +16,6 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 class WelcomeFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        requireActivity().appBarLayout?.let {
-            it.isVisible = true
-            it.toolbar.title = getString(R.string.welcome)
-        }
         val binding: FragmentWelcomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_welcome, container, false)
         binding.goToInstructionsButton.setOnClickListener { v: View ->
             Navigation.findNavController(v).navigate(R.id.action_welcomeFragment_to_instructionsFragment)

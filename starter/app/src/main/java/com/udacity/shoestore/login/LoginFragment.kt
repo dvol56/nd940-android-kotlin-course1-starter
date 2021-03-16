@@ -21,9 +21,6 @@ class LoginFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        requireActivity().appBarLayout?.let {
-            it.isVisible = false
-        }
         val binding: FragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         binding.signInButton.setOnClickListener { v: View ->
             if (binding.loginView.text.isNotEmpty() && binding.PasswordView.text.isNotEmpty()) {

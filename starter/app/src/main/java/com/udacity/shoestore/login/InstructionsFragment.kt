@@ -20,10 +20,6 @@ class InstructionsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        requireActivity().appBarLayout?.let {
-            it.isVisible = true
-            it.toolbar.title = getString(R.string.instructions)
-        }
         val binding: FragmentInstructionsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_instructions, container, false)
         binding.okButton.setOnClickListener { v: View ->
             Navigation.findNavController(v).navigate(R.id.action_instructionsFragment_to_shoeListFragment)

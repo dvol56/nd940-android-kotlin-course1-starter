@@ -2,18 +2,16 @@ package com.udacity.shoestore.shoe
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.udacity.shoestore.R
 import com.udacity.shoestore.databinding.FragmentShoeListBinding
 import com.udacity.shoestore.models.Shoe
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 class ShoeListFragment: Fragment() {
 
@@ -25,10 +23,6 @@ class ShoeListFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        requireActivity().appBarLayout?.let {
-            it.isVisible = true
-            it.toolbar.title = getString(R.string.list_of_shoes)
-        }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shoe_list, container, false)
         viewModel.shoes.observe(viewLifecycleOwner, Observer {
             if(it.isNotEmpty()){
@@ -39,15 +33,17 @@ class ShoeListFragment: Fragment() {
         binding.addShoeButton.setOnClickListener { v: View ->
             Navigation.findNavController(v).navigate(R.id.action_shoeListFragment_to_shoeDetailFragment)
         }
-        requireActivity().appBarLayout.toolbar.inflateMenu(R.menu.menu)
-        requireActivity().appBarLayout.toolbar.setOnMenuItemClickListener (object : android.widget.Toolbar.OnMenuItemClickListener,
-                Toolbar.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem?): Boolean {
-                Navigation.findNavController(view!!).navigate(R.id.action_shoeListFragment_to_loginFragment)
-                return true
-            }
-        })
+        setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item, view?.findNavController()!!) || super.onOptionsItemSelected(item)
     }
 
     private fun createShoes(shoes: List<Shoe>){

@@ -19,33 +19,28 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 class ShoeDetailFragment: Fragment() {
 
     private val shoesViewModel: ShoeListViewModel by activityViewModels()
+    private val shoe: Shoe = Shoe("", "", "", "")
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        requireActivity().appBarLayout?.let {
-            it.isVisible = true
-            it.toolbar.title = getString(R.string.add_shoe)
-        }
         val binding: FragmentShoeDetailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_shoe_detail, container, false)
         binding.lifecycleOwner = this
         binding.shoeListingsViewModel = shoesViewModel
-        binding.shoeNameView.setText("")
-        binding.shoeSizeView.setText("")
-        binding.companyView.setText("")
-        binding.descriptionView.setText("")
+        binding.shoe = shoe
         binding.saveButton.setOnClickListener { v: View ->
             if(binding.shoeNameView.text.toString().isNotEmpty() &&  binding.shoeSizeView.text.toString().isNotEmpty() &&  binding.companyView.text.toString().isNotEmpty() && binding.descriptionView.text.toString().isNotEmpty()) {
-                shoesViewModel.addShoe(
-                    shoe = Shoe(
-                        binding.shoeNameView.text.toString(),
-                        binding.shoeSizeView.text.toString().toDouble(),
-                        binding.companyView.text.toString(),
-                        binding.descriptionView.text.toString()
-                    )
-                )
+                binding.apply {
+                    shoe?.name = shoeNameView.text.toString()
+                    shoe?.company = companyView.text.toString()
+                    shoe?.description = descriptionView.text.toString()
+                    shoe?.size = shoeSizeView.text.toString()
+                }
+
+                shoesViewModel.addShoe(shoe)
                 Navigation.findNavController(v)
                     .navigate(R.id.action_shoeDetailFragment_to_shoeListFragment)
             }else{

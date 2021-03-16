@@ -21,7 +21,7 @@ class ShoeView: LinearLayout {
             addView(this.root)
             name.text = shoe.name
             company.text = shoe.company
-            shoeSize.text = shoe.size.toString()
+            shoeSize.text = shoe.size
             description.text = shoe.description
         }
     }
